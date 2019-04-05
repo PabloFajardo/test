@@ -12,15 +12,17 @@ import android.widget.TextView;
 
 import com.test.pablofajardo.tecnical_test.models.Album;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> implements Filterable {
 
-    private List<Album> mAlbumList;
+    private List<Album> mAlbumList, mResultList;
     private IAlbumsContract.View mListener;
 
     AlbumsAdapter(List<Album> mAlbumList, IAlbumsContract.View listener ) {
         this.mAlbumList = mAlbumList;
+        this.mResultList = new ArrayList<>(mAlbumList);
         this.mListener = listener;
     }
 
@@ -52,7 +54,34 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @Override
     public Filter getFilter() {
-        return null;
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults results = new FilterResults();
+                String search = constraint.toString().toLowerCase();
+                List<Album> albumList = new ArrayList<>();
+
+                for (Album album : mAlbumList) {
+                    if (album.getTitle().toLowerCase().contains(search)) {
+                        albumList.add(album);
+                    }
+                }
+
+                results.values = albumList;
+                results.count = albumList.size();
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results != null && results.count > 0) {
+                    // The API returned at least one result, update the data.
+                    mResultList = (List<Album>) results.values;
+                    notifyDataSetChanged();
+                }
+            }
+        };
     }
 
     final class AlbumViewHolder extends RecyclerView.ViewHolder {
