@@ -13,6 +13,12 @@
         android:layout_height="wrap_content"
         android:visibility="visible"/>
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar por titulo"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/album_recycler"
         android:layout_width="match_parent"

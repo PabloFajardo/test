@@ -6,13 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.test.pablofajardo.tecnical_test.models.Album;
 
 import java.util.List;
 
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> {
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> implements Filterable {
 
     private List<Album> mAlbumList;
     private IAlbumsContract.View mListener;
@@ -46,6 +48,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             return mAlbumList.size();
         else
             return 0;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return null;
     }
 
     final class AlbumViewHolder extends RecyclerView.ViewHolder {

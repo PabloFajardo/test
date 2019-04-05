@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,23 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
         view = inflater.inflate(R.layout.fragment_albums, container, false);
         ButterKnife.bind(this, view);
 
-        fab = view.findViewById(R.id.fab);
+        final SearchView search = view.findViewById(R.id.search);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search.clearFocus();
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                //todo add listener tu adapter
+                mRecyclerView.getAdapter();
+                return true;
+            }
+        });
+
+        fab = view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +80,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
