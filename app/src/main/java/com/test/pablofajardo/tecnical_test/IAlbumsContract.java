@@ -11,6 +11,7 @@ public interface IAlbumsContract {
 
     interface View extends BaseView {
         void showAlbums(@NonNull List<Album> albumList);
+        void onAlbumSelected(@NonNull Album album);
     }
 
     interface Presenter {

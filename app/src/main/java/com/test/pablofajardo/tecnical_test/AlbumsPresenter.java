@@ -1,8 +1,6 @@
 package com.test.pablofajardo.tecnical_test;
 
 
-import android.util.Log;
-
 import com.test.pablofajardo.tecnical_test.models.Album;
 import com.test.pablofajardo.tecnical_test.useCase.GetAlbumsImp;
 import com.test.pablofajardo.tecnical_test.useCase.IGetAlbums;
@@ -18,12 +16,11 @@ public class AlbumsPresenter implements IAlbumsContract.Presenter {
     private IAlbumsContract.View IView;
     private IGetAlbums IGetAlbums;
 
-    public AlbumsPresenter(IAlbumsContract.View view) {
+    AlbumsPresenter(IAlbumsContract.View view) {
 
         IView = view;
         IGetAlbums = new GetAlbumsImp();
     }
-
 
     @Override
     public void getAlbums() {
