@@ -1,11 +1,10 @@
 package com.test.pablofajardo.tecnical_test;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.test.pablofajardo.tecnical_test.models.Album;
 
@@ -28,9 +28,10 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
     @BindView(R.id.album_recycler)
     RecyclerView mRecyclerView;
+    @BindView(R.id.progress_album)
+    ProgressBar mProgress;
 
     private View view;
-    private FloatingActionButton fab;
 
     private AlbumsPresenter mPresenter;
 
@@ -53,7 +54,17 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
         view = inflater.inflate(R.layout.fragment_albums, container, false);
         ButterKnife.bind(this, view);
 
+        initSearchView();
+
+        mPresenter = new AlbumsPresenter(this);
+
+        return view;
+    }
+
+    private void initSearchView(){
         final SearchView search = view.findViewById(R.id.search);
+        search.setQueryHint("Filtrar por titulo");
+        search.onActionViewExpanded();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -63,25 +74,11 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                //todo add listener tu adapter
-                mRecyclerView.getAdapter();
+                ((AlbumsAdapter)mRecyclerView.getAdapter()).getFilter().filter(s);
                 return true;
             }
         });
-
-        fab = view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPresenter.getAlbums();
-            }
-        });
-
-        mPresenter = new AlbumsPresenter(this);
-
-        return view;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -96,6 +93,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
     @Override
     public void showAlbums(@NonNull List<Album> albumList) {
+        mProgress.setVisibility(View.GONE);
 
         AlbumsAdapter adapter = new AlbumsAdapter(albumList, this);
         mRecyclerView.setAdapter(adapter);

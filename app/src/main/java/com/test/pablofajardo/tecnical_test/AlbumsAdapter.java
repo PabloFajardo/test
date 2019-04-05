@@ -17,7 +17,8 @@ import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> implements Filterable {
 
-    private List<Album> mAlbumList, mResultList;
+    private final List<Album> mAlbumList;
+    private List<Album> mResultList;
     private IAlbumsContract.View mListener;
 
     AlbumsAdapter(List<Album> mAlbumList, IAlbumsContract.View listener ) {
@@ -40,14 +41,14 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
 
     @Override
     public void onBindViewHolder(@NonNull AlbumViewHolder albumViewHolder, int i) {
-            albumViewHolder.bindView(mAlbumList.get(i));
+            albumViewHolder.bindView(mResultList.get(i));
     }
 
     @Override
     public int getItemCount() {
 
-        if (mAlbumList != null && mAlbumList.size() > 0)
-            return mAlbumList.size();
+        if (mResultList.size() > 0)
+            return mResultList.size();
         else
             return 0;
     }
