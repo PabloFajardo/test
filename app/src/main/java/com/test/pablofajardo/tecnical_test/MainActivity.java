@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.test.pablofajardo.tecnical_test.base.BaseView;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.AlbumsFragment;
 
 public class MainActivity extends AppCompatActivity implements BaseView.Navigation {
 

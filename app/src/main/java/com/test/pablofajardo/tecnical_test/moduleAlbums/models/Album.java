@@ -1,4 +1,4 @@
-package com.test.pablofajardo.tecnical_test.models;
+package com.test.pablofajardo.tecnical_test.moduleAlbums.models;
 
 import com.google.gson.annotations.SerializedName;
 

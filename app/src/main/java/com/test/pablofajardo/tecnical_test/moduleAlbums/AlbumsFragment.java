@@ -1,4 +1,4 @@
-package com.test.pablofajardo.tecnical_test;
+package com.test.pablofajardo.tecnical_test.moduleAlbums;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.test.pablofajardo.tecnical_test.models.Album;
+import com.test.pablofajardo.tecnical_test.R;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.adapters.AlbumsAdapter;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
 
 import java.util.List;
 

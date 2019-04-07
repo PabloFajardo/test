@@ -1,6 +1,6 @@
-package com.test.pablofajardo.tecnical_test.useCase;
+package com.test.pablofajardo.tecnical_test.moduleAlbums.useCase;
 
-import com.test.pablofajardo.tecnical_test.models.Album;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
 
 import java.util.List;
 

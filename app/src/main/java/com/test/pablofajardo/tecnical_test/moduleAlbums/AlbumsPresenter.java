@@ -1,9 +1,9 @@
-package com.test.pablofajardo.tecnical_test;
+package com.test.pablofajardo.tecnical_test.moduleAlbums;
 
 
-import com.test.pablofajardo.tecnical_test.models.Album;
-import com.test.pablofajardo.tecnical_test.useCase.GetAlbumsImp;
-import com.test.pablofajardo.tecnical_test.useCase.IGetAlbums;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.useCase.GetAlbumsImp;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.useCase.IGetAlbums;
 
 import java.util.List;
 

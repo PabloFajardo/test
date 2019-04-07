@@ -1,4 +1,4 @@
-package com.test.pablofajardo.tecnical_test;
+package com.test.pablofajardo.tecnical_test.moduleAlbums.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.test.pablofajardo.tecnical_test.models.Album;
+import com.test.pablofajardo.tecnical_test.R;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.IAlbumsContract;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
     private List<Album> mResultList;
     private IAlbumsContract.View mListener;
 
-    AlbumsAdapter(List<Album> mAlbumList, IAlbumsContract.View listener ) {
+    public AlbumsAdapter(List<Album> mAlbumList, IAlbumsContract.View listener) {
         this.mAlbumList = mAlbumList;
         this.mResultList = new ArrayList<>(mAlbumList);
         this.mListener = listener;

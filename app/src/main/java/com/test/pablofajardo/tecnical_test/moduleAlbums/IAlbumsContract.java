@@ -1,9 +1,9 @@
-package com.test.pablofajardo.tecnical_test;
+package com.test.pablofajardo.tecnical_test.moduleAlbums;
 
 import android.support.annotation.NonNull;
 
 import com.test.pablofajardo.tecnical_test.base.BaseView;
-import com.test.pablofajardo.tecnical_test.models.Album;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
 
 import java.util.List;
 
