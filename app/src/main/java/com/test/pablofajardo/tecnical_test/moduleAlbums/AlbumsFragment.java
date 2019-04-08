@@ -33,10 +33,16 @@ import butterknife.ButterKnife;
  */
 public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
+    public static final String ALBUM_TAG = AlbumsFragment.class.getSimpleName();
+    public static final String ALBUM_LIST = "ALBUM_LIST";
+    public static final String ALBUM_SEARCH = "ALBUM_ID";
+
     @BindView(R.id.album_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.progress_album)
     ProgressBar mProgress;
+    @BindView(R.id.search)
+    SearchView mSearch;
 
     private View view;
 
@@ -45,10 +51,13 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
     public static AlbumsFragment newInstance() {
 
-        Bundle args = new Bundle();
+        return  new AlbumsFragment();
+    }
+
+    public static AlbumsFragment newInstance(Bundle bundle) {
 
         AlbumsFragment fragment = new AlbumsFragment();
-        fragment.setArguments(args);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -62,9 +71,13 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
         view = inflater.inflate(R.layout.fragment_albums, container, false);
         ButterKnife.bind(this, view);
 
-        initSearchView();
         mPresenter = new AlbumsPresenter(this);
+
+        initSearchView();
         setHasOptionsMenu(true);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }
@@ -89,20 +102,21 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
     }
 
     private void initSearchView(){
-        final SearchView search = view.findViewById(R.id.search);
-        search.setQueryHint("Filtrar por titulo");
-        search.onActionViewExpanded();
-        search.clearFocus();
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearch.setQueryHint("Filtrar por titulo");
+        mSearch.onActionViewExpanded();
+        mSearch.clearFocus();
+        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                search.clearFocus();
+                mSearch.clearFocus();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                ((AlbumsAdapter)mRecyclerView.getAdapter()).getFilter().filter(s);
+                if (mRecyclerView.getAdapter() != null) {
+                    ((AlbumsAdapter)mRecyclerView.getAdapter()).getFilter().filter(s);
+                }
                 return true;
             }
         });
@@ -112,11 +126,15 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        savedInstanceState = getArguments();
+        if (savedInstanceState == null && mPresenter.getAlbumList().size() == 0) {
+            mPresenter.getAlbums();
 
-        mPresenter.getAlbums();
-
+        } else {
+            mPresenter.setAlbumList(savedInstanceState.<Album>getParcelableArrayList(ALBUM_LIST));
+            showAlbums(mPresenter.getAlbumList());
+            mSearch.setQuery(savedInstanceState.getString(ALBUM_SEARCH), false);
+        }
     }
 
     @Override
@@ -147,5 +165,13 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
         if (context instanceof BaseView.Navigation){
             navigation = (BaseView.Navigation) context;
         }
+    }
+
+    public AlbumsPresenter getPresenter() {
+        return mPresenter;
+    }
+
+    public String getSearch() {
+        return mSearch.getQuery().toString();
     }
 }

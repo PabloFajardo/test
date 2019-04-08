@@ -1,6 +1,7 @@
 package com.test.pablofajardo.tecnical_test;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,10 @@ import android.support.v7.widget.Toolbar;
 
 import com.test.pablofajardo.tecnical_test.base.BaseView;
 import com.test.pablofajardo.tecnical_test.moduleAlbums.AlbumsFragment;
+import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BaseView.Navigation {
 
@@ -23,7 +28,13 @@ public class MainActivity extends AppCompatActivity implements BaseView.Navigati
 
         setToolbar();
 
-        AlbumsFragment albumsFragment = AlbumsFragment.newInstance();
+        AlbumsFragment albumsFragment;
+
+        if (savedInstanceState == null)
+            albumsFragment = AlbumsFragment.newInstance();
+        else
+            albumsFragment = AlbumsFragment.newInstance(savedInstanceState);
+
         changeFragment(albumsFragment, true);
     }
 
@@ -73,5 +84,21 @@ public class MainActivity extends AppCompatActivity implements BaseView.Navigati
         } else {
             mSupportFragmentManager.popBackStack();
         }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        Fragment fragment = mSupportFragmentManager.findFragmentByTag(AlbumsFragment.ALBUM_TAG);
+        if (fragment != null){
+            List<Album> albums = ((AlbumsFragment)fragment).getPresenter().getAlbumList();
+
+            outState.putParcelableArrayList(AlbumsFragment.ALBUM_LIST, new ArrayList<Parcelable>(albums));
+            outState.putString(AlbumsFragment.ALBUM_SEARCH, ((AlbumsFragment)fragment).getSearch());
+            outState.putString(AlbumsFragment.ALBUM_TAG, AlbumsFragment.ALBUM_TAG);
+        }
+        super.onSaveInstanceState(outState);
+
     }
 }

@@ -113,7 +113,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             parentLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.showMessage("holis " + album.getTitle());
                     mListener.onAlbumSelected(album);
                 }
             });

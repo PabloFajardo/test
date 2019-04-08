@@ -28,6 +28,8 @@ import butterknife.ButterKnife;
 public class DetailsFragment extends Fragment implements IDetailsContract.View {
 
     private static final String ALBUM_ID = "ALBUM_ID";
+    private static final String ALBUM_LIST = "ALBUM_ID";
+    private static final String ALBUM_SEARCH = "ALBUM_ID";
 
     @BindView(R.id.details_recycler)
     RecyclerView mRecyclerView;
@@ -72,7 +74,6 @@ public class DetailsFragment extends Fragment implements IDetailsContract.View {
 
         return view;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
