@@ -78,11 +78,13 @@ public class MainActivity extends AppCompatActivity implements BaseView.Navigati
 
     @Override
     public void onBackPressed() {
-
-        if (mSupportFragmentManager.getBackStackEntryCount() == 1) {
-            finish();
-        } else {
-            mSupportFragmentManager.popBackStack();
+        Fragment fragment = mSupportFragmentManager.findFragmentByTag(AlbumsFragment.ALBUM_TAG);
+        if (fragment != null) {
+            if (fragment instanceof AlbumsFragment) {
+                finish();
+            } else {
+                mSupportFragmentManager.popBackStackImmediate();
+            }
         }
     }
 
