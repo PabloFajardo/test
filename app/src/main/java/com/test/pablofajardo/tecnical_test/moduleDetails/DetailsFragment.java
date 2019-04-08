@@ -27,9 +27,8 @@ import butterknife.ButterKnife;
 
 public class DetailsFragment extends Fragment implements IDetailsContract.View {
 
-    private static final String ALBUM_ID = "ALBUM_ID";
-    private static final String ALBUM_LIST = "ALBUM_ID";
-    private static final String ALBUM_SEARCH = "ALBUM_ID";
+    public static final String DETAIL_TAG = DetailsFragment.class.getSimpleName();
+    public static final String ALBUM_ID = "ALBUM_ID";
 
     @BindView(R.id.details_recycler)
     RecyclerView mRecyclerView;
@@ -37,7 +36,7 @@ public class DetailsFragment extends Fragment implements IDetailsContract.View {
     ProgressBar mProgress;
 
     private List<AlbumDetails> mDetailsList;
-
+    private int albumId = 0;
     private View view;
 
     private DetailsPresenter mPresenter;
@@ -46,6 +45,14 @@ public class DetailsFragment extends Fragment implements IDetailsContract.View {
 
         Bundle bundle = new Bundle();
         bundle.putInt(ALBUM_ID, albumId);
+
+        DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    public static DetailsFragment newInstance(Bundle bundle) {
 
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(bundle);
@@ -80,7 +87,10 @@ public class DetailsFragment extends Fragment implements IDetailsContract.View {
         super.onViewCreated(view, savedInstanceState);
 
         Bundle bundle = getArguments();
-        int albumId = 0;
+
+        if (bundle == null) {
+            bundle = savedInstanceState;
+        }
 
         if (bundle != null)
             albumId = bundle.getInt(ALBUM_ID);
@@ -118,5 +128,17 @@ public class DetailsFragment extends Fragment implements IDetailsContract.View {
     @Override
     public void showMessage(String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        outState.putInt(ALBUM_ID, albumId);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    public int getAlbumId() {
+        return albumId;
     }
 }
