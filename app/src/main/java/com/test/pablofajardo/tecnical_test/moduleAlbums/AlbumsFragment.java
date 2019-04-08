@@ -1,5 +1,6 @@
 package com.test.pablofajardo.tecnical_test.moduleAlbums;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,15 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.test.pablofajardo.tecnical_test.R;
+import com.test.pablofajardo.tecnical_test.base.BaseView;
 import com.test.pablofajardo.tecnical_test.moduleAlbums.adapters.AlbumsAdapter;
 import com.test.pablofajardo.tecnical_test.moduleAlbums.models.Album;
+import com.test.pablofajardo.tecnical_test.moduleDetails.DetailsFragment;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
     private View view;
 
     private AlbumsPresenter mPresenter;
+    private BaseView.Navigation navigation;
 
     public static AlbumsFragment newInstance() {
 
@@ -67,6 +70,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
         final SearchView search = view.findViewById(R.id.search);
         search.setQueryHint("Filtrar por titulo");
         search.onActionViewExpanded();
+        search.clearFocus();
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -104,11 +108,22 @@ public class AlbumsFragment extends Fragment implements IAlbumsContract.View {
 
     @Override
     public void onAlbumSelected(@NonNull Album album) {
-        Log.i("###", album.toString());
+
+        //Go to details fragment
+        navigation.changeFragment(DetailsFragment.newInstance(album.getId()), false);
     }
 
     @Override
     public void showMessage(String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof BaseView.Navigation){
+            navigation = (BaseView.Navigation) context;
+        }
     }
 }
