@@ -36,7 +36,6 @@ public class AlbumsPresenter implements IAlbumsContract.Presenter {
 
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
-                IView.showMessage(t.getMessage());
             }
         });
     }
